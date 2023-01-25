@@ -31,7 +31,7 @@ The code in this repo should not be run inside of your company's aws accounts bu
 
 ## Running it inside of a docker container
 
-* pull image from docker hum docker pull oak9/cli
+* pull image from docker hub docker pull oak9/cli
 * pass following env vars to the container 
     * OAK9_API_KEY
     * OAK9_PROJECT_ID
@@ -66,5 +66,5 @@ https://www.terraform.io/language/settings/backends/s3
 
 ## Getting Started Oak9 CLI Execution 
 
-Downloading the TerraOak Cli and the instructions on how to run it can be found here, https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
+Downloading the Oak9 Cli and the instructions on how to run it can be found here, https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
 
