@@ -1,8 +1,9 @@
 
 
 output "base_url" {
-  value = module.api_gatewayv2.base_url
+  value = module.api_gateway.base_url
 }
+
 data "archive_file" "lambda_users_get" {
   type = "zip"
 
@@ -22,8 +23,8 @@ module "Lambda" {
     depends_on = [module.lambda_s3_bucket]
     source_code_hash_get = data.archive_file.lambda_users_get.output_base64sha256
     source_code_hash_set= data.archive_file.lambda_users_set.output_base64sha256
-    api_source_arn = module.api_gatewayv2.apigatewayv2_api_execution_arn
 }
+
 module "lambda_s3_bucket" {
     source = "./_modules/s3"
     source_getusers = data.archive_file.lambda_users_get.output_path
@@ -37,11 +38,13 @@ module "dyanmodb" {
   
 }
 
- module "api_gatewayv2" {
-    source = "./_modules/api-gatewayv2"
+ module "api_gateway" {
+    source = "./_modules/api-gateway"
     name          = "UserApi-sandbox"
     protocol_type = "HTTP"
     description   = "Api-Gateway-UserApi-Testing"
     lambda_arn_set_user = module.Lambda.lambda_arn_UsersSet
     lambda_arn_get_user = module.Lambda.lambda_arn_UsersGet
+    lambda_func_get_user_name = module.Lambda.function_name_get
+    lambda_func_set_user_name =  module.Lambda.function_name_set
 }

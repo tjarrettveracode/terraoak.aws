@@ -1,4 +1,5 @@
 import boto3
+import simplejson as json
 
 def lambda_handler(event, context):
     client = boto3.resource('dynamodb')
@@ -9,7 +10,10 @@ def lambda_handler(event, context):
         }
     )
     if 'Item' in response:
-        return response['Item']
+        return {
+            'statusCode': 200,
+            'body': json.dumps((response), use_decimal=True)
+}
     else:
         return {
             'statusCode': '404',

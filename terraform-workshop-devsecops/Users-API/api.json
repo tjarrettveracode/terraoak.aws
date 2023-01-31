@@ -1,10 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "Pets API",
-      "description": "This API supports the creation and retrieval of a Pet Object.",
+      "title": "Users API",
+      "description": "This API supports the creation and retrieval of a User Object.",
       "contact": {
-        "email": "mike@echovue.com"
       },
       "license": {
         "name": "Apache 2.0",
@@ -29,7 +28,7 @@
       }
     ],
     "paths": {
-      "/pet": {
+      "/get-user": {
         "get": {
           "tags": [
             "developers"

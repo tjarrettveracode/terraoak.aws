@@ -16,3 +16,10 @@ variable "protocol_type" {
 variable "description" {
     type = string
 }
+
+variable "lambda_func_get_user_name" {
+    type = string
+}
+variable "lambda_func_set_user_name" {
+    type = string
+}

@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "UsersGet" {
-  function_name = "Petstore-Get"
+  function_name = "Users-Get"
 
 
   s3_bucket = "terraform-webinar-demo-files"
@@ -13,7 +13,7 @@ resource "aws_lambda_function" "UsersGet" {
 }
 
 resource "aws_lambda_function" "UsersSet" {
-  function_name = "Petstore-Set"
+  function_name = "Users-Set"
 
   s3_bucket = "terraform-webinar-demo-files"
   s3_key =  "user-store-set.zip"
@@ -78,7 +78,10 @@ resource "aws_iam_policy" "DynamoDbReadWrite" {
           "dynamodb:ListStreams",
           "dynamodb:Scan",
           "dynamodb:Query",
-          "dynamodb:GetRecords"
+          "dynamodb:GetRecords",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"          
         ],
         "Resource" : "*"
       }
@@ -95,20 +98,4 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_iam_role_policy_attachment" "lambda_policy_dyanmodb" {
   role       = aws_iam_role.lambda_exec.name
   policy_arn = aws_iam_policy.DynamoDbReadWrite.arn
-}
-
-resource "aws_lambda_permission" "allow_api-gateway_get" {
-  statement_id  = "AllowExecutionFromApiGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.UsersGet.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    =  "${var.api_source_arn}/*/*"
-}
-
-resource "aws_lambda_permission" "allow_api-gateway_set" {
-  statement_id  = "AllowExecutionFromApiGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.UsersSet.function_name
-  principal     = "apigateway.amazonaws.com" 
-  source_arn    = "${var.api_source_arn}/*/*"
 }

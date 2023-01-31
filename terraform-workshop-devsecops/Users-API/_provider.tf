@@ -9,11 +9,11 @@ terraform {
       version = "~> 2.2.0"
     }
   }
-
-  required_version = "~> 1.1.0"
+  required_version = "~> 1.1.9"
 }
 
 provider "aws" {
   region  = "us-east-2"
-  profile = "sandbox"
+  #needed if you are using aws profiles 
+  #profile        = "sandbox"
 }
