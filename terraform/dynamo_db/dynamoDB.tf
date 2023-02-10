@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "dynamo_db" {
-  name           = "foo"
+  name           = "DynamoDB"
   billing_mode   = "PROVISIONED"
   hash_key       = "UserId"
   range_key      = "GameTitle"
@@ -48,7 +48,7 @@ resource "aws_dynamodb_table" "dynamo_db" {
   }
 }
 
-resource "aws_kms_key" "foo_DDB" {
+resource "aws_kms_key" "dynamo_key" {
   description             = "This key is used to encrypt dynamoDB objects"
   deletion_window_in_days = 10
   enable_key_rotation = false

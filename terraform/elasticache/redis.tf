@@ -1,5 +1,4 @@
 resource "aws_elasticache_replication_group" "elasticache_replication_group" {
-  engine                        = "redis"
   engine_version                = "6.x"
   availability_zones            = ["us-west-2a", "us-west-2b"]
   replication_group_id          = "RepGroup"
@@ -11,20 +10,16 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   security_group_names = [ "" ]
   security_group_ids = [ "value" ]
   
-  
-  at_rest_encryption_enabled    = true
+  multi_az_enabled              = false
+  at_rest_encryption_enabled    = false
   auto_minor_version_upgrade    = true
-  automatic_failover_enabled    = true
-  transit_encryption_enabled    = true
+  automatic_failover_enabled    = false
+  transit_encryption_enabled    = false
 
   maintenance_window            = "sat:05:30-sat:06:30"
   snapshot_retention_limit      = 7
   snapshot_window               = "23:30-00:30"
   final_snapshot_identifier = "redis-snapshot-foo"
-
-  tags = {
-    Environment = "test"
-  }
 
   timeouts {}
 
@@ -35,7 +30,18 @@ resource "aws_elasticache_replication_group" "elasticache_replication_group" {
 
 resource "aws_elasticache_cluster" "elasticache_cluster" {
   count = 1
+  engine = "memcached"
+  cluster_id           = "tf-rep-group-1-${count.index}"
+  replication_group_id = "${aws_elasticache_replication_group.elasticache_replication_group.id}"
+  security_group_ids = [ "cluster_security groups" ]
+  security_group_names = [ "value" ]
+  
+}
 
+resource "aws_elasticache_cluster" "elasticache_cluster_redis" {
+  count = 1
+  engine = "redis"
+  snapshot_retention_limit = 5
   cluster_id           = "tf-rep-group-1-${count.index}"
   replication_group_id = "${aws_elasticache_replication_group.elasticache_replication_group.id}"
   security_group_ids = [ "cluster_security groups" ]

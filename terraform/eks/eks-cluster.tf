@@ -38,13 +38,6 @@ resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster-name
   role_arn = aws_iam_role.eks_role.arn
 
-  encryption_config {
-        resources = []
-        provider {
-            key_arn = aws_kms_key.kms_key.arn
-        }
-    }
-
   vpc_config {
     security_group_ids = []
     subnet_ids         = aws_subnet.demo[*].id

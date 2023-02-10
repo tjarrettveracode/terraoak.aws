@@ -30,10 +30,10 @@ resource "aws_api_gateway_client_certificate" "api_gateway_client_certificate" {
   description = "My foo client certificate"
 }
 
- resource "aws_api_gateway_domain_name" "example" {
+ resource "aws_api_gateway_domain_name" "api_gateway_domain" {
    # All options # Must be configured
    domain_name = "foo.example.com"
-   certificate_name        = "example-api"
+   certificate_name        = "api_gateway_cert"
    certificate_body        = file("${path.module}/example.com/example.crt")
    certificate_chain       = file("${path.module}/example.com/ca.crt")
    certificate_private_key = file("${path.module}/example.com/example.key")
