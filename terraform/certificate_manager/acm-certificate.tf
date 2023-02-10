@@ -1,4 +1,4 @@
-resource "aws_acm_certificate" "foo" { 
+resource "aws_acm_certificate" "cert-manager" { 
   domain_name               = ""
   subject_alternative_names = ["www.foo.com"]
   validation_method         = "DNS"

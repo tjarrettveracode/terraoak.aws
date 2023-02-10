@@ -1,8 +1,8 @@
-resource "aws_elasticache_replication_group" "foo" {
+resource "aws_elasticache_replication_group" "elasticache_replication_group" {
   engine                        = "redis"
   engine_version                = "6.x"
   availability_zones            = ["us-west-2a", "us-west-2b"]
-  replication_group_id          = "foo"
+  replication_group_id          = "RepGroup"
   replication_group_description = "foo-group description"
   node_type                     = var.node_type
   number_cache_clusters         = 2
@@ -33,18 +33,18 @@ resource "aws_elasticache_replication_group" "foo" {
   }
 }
 
-resource "aws_elasticache_cluster" "replica" {
+resource "aws_elasticache_cluster" "elasticache_cluster" {
   count = 1
 
   cluster_id           = "tf-rep-group-1-${count.index}"
-  replication_group_id = "${aws_elasticache_replication_group.foo.id}"
+  replication_group_id = "${aws_elasticache_replication_group.elasticache_replication_group.id}"
   security_group_ids = [ "cluster_security groups" ]
   security_group_names = [ "value" ]
   
 }
 
 
-resource "aws_elasticache_user" "foo" {
+resource "aws_elasticache_user" "elasticache_user" {
   user_id       = var.user_id
   user_name     = var.user_name
   access_string = "on ~app::* -@all +@read +@hash +@bitmap +@geo -setbit -bitfield -hset -hsetnx -hmset -hincrby -hincrbyfloat -hdel -bitop -geoadd -georadius -georadiusbymember"

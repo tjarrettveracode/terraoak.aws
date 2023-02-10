@@ -1,5 +1,5 @@
 
-resource "aws_elasticsearch_domain" "es" {
+resource "aws_elasticsearch_domain" "elasticshearch_domain" {
   domain_name = local.elk_domain
   elasticsearch_version = "7.10"
 

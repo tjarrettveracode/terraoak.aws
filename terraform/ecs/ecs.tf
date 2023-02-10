@@ -1,4 +1,4 @@
-resource "aws_ecs_cluster" "test-cluster" {
+resource "aws_ecs_cluster" "ecs_cluster" {
   name = "myapp-cluster"
     setting {
       name  = "containerInsights"
@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "test-cluster" {
   }
 
 }
-resource "aws_ecs_task_definition" "test-def" {
+resource "aws_ecs_task_definition" "ecs_task_definition" {
   # All options # Must be configured
   family                   = "testapp-task"
   
@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "test-def" {
       CreatedBy=""
     }
 }
-resource "aws_efs_file_system" "efs" {
+resource "aws_efs_file_system" "ecs_efs_system" {
   creation_token = "efs-html"
 
   tags = {

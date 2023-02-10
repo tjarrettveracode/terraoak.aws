@@ -1,7 +1,7 @@
-resource "aws_api_gateway_method_settings" "foo" {
+resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
   # All options # Must be configured
-  rest_api_id = aws_api_gateway_rest_api.foo.id
-  stage_name  = aws_api_gateway_stage.foo.stage_name
+  rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  stage_name  = aws_api_gateway_stage.api_gateway_stage.stage_name
   method_path = "*/*"
   settings {
     cache_data_encrypted   = false
@@ -14,15 +14,15 @@ resource "aws_api_gateway_method_settings" "foo" {
   }
 }
 
-resource "aws_api_gateway_usage_plan" "foo" {
-  name         = "foo-usage-plan"
+resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
+  name         = "ApiGateway-usage-plan"
   description  = "my foo usage plan"
   product_code = "MYCODE"
 
   api_stages {
     # All options # Must be configured
-    api_id = aws_api_gateway_rest_api.foo.id
-    stage  = aws_api_gateway_stage.foo.stage_name
+    api_id = aws_api_gateway_rest_api.api_gateway_rest_api.id
+    stage  = aws_api_gateway_stage.api_gateway_stage.stage_name
   }
 
   quota_settings {
@@ -39,16 +39,16 @@ resource "aws_api_gateway_usage_plan" "foo" {
   }
 }
 
-resource "aws_api_gateway_account" "foo_apigw_cw" {
-  cloudwatch_role_arn = aws_iam_role.foo_apigw.arn # Must be configured
+resource "aws_api_gateway_account" "api_gateway_account" {
+  cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn # Must be configured
   depends_on = [
-    aws_iam_role_policy_attachment.foo_apigw_cw,
-    aws_iam_role_policy.foo_apigw_cw
+    aws_iam_role_policy_attachment.api_gateway_role_attachment,
+    aws_iam_role_policy.api_gateway_role_policy
   ]
 }
 
-resource "aws_iam_role" "foo_apigw_cw" {
-  name = "foo_apigw_cw"
+resource "aws_iam_role" "api_gateway_role" {
+  name = "ApiGateway-Role"
 
   assume_role_policy = <<EOF
 {
@@ -68,14 +68,14 @@ EOF
 }
 
 
-resource "aws_iam_role_policy_attachment" "foo_apigw_cw" {
-  role       = aws_iam_role.foo_apigw_cw.name
+resource "aws_iam_role_policy_attachment" "api_gateway_role_policy" {
+  role       = aws_iam_role.api_gateway_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 }
 
-resource "aws_iam_role_policy" "foo_apigw_cw" {
+resource "aws_iam_role_policy" "api_gateway_role_policy" {
   name = "default"
-  role = aws_iam_role.foo_apigw_cw.id
+  role = aws_iam_role.api_gateway_role.id
 
   policy = <<EOF
 {

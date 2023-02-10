@@ -1,5 +1,5 @@
-resource "aws_kinesis_stream" "foo_stream" {
-  name                      = "foo-kinesis-stream"
+resource "aws_kinesis_stream" "kinesis_stream" {
+  name                      = "kinesis_stream"
   shard_count               = 1
   enforce_consumer_deletion = false
   encryption_type           = ""
@@ -15,8 +15,8 @@ resource "aws_kinesis_stream" "foo_stream" {
   }
 }
 
-resource "aws_kinesis_stream_consumer" "foo_stream_consumer" {
+resource "aws_kinesis_stream_consumer" "kinesis_stream_consumer" {
   # All options # Must be configured
   name       = "foo-kinesis-consumer"
-  stream_arn = aws_kinesis_stream.foo_stream.arn
+  stream_arn = aws_kinesis_stream.kinesis_stream.arn
 }

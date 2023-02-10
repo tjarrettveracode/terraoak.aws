@@ -1,4 +1,4 @@
-resource "aws_db_instance" "default" {
+resource "aws_db_instance" "db_instance" {
   depends_on              = [aws_security_group.default]
   identifier              = var.identifier
   allocated_storage       = 10
@@ -66,7 +66,7 @@ resource "aws_db_proxy" "db_proxy" {
   }
 }
 
-resource "aws_db_proxy_default_target_group" "this" {
+resource "aws_db_proxy_default_target_group" "db_proxy_target_group" {
   db_proxy_name = aws_db_proxy.db_proxy.name
   connection_pool_config {
     connection_borrow_timeout    = 300
