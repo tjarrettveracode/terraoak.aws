@@ -1,5 +1,5 @@
-resource "aws_api_gateway_rest_api" "foo" {
-  name                         = "foo" # Must be configured
+resource "aws_api_gateway_rest_api" "api_gateway_rest_api" {
+  name                         = "ApiGateway-RestAPI" # Must be configured
   description                  = "This is a demo api-gw template" # Must be configured
   disable_execute_api_endpoint = false
   api_key_source               = "HEADER"
@@ -10,16 +10,16 @@ resource "aws_api_gateway_rest_api" "foo" {
   }
 }
 
-resource "aws_api_gateway_resource" "foo" {
+resource "aws_api_gateway_resource" "api_gateway_resource" {
   # All options # Must be configured
-  rest_api_id = aws_api_gateway_rest_api.foo.id
-  parent_id   = aws_api_gateway_rest_api.foo.root_resource_id
+  rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  parent_id   = aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id
   path_part   = "{proxy+}"
 }
 
-resource "aws_api_gateway_method" "foo" {
-  rest_api_id = aws_api_gateway_rest_api.foo.id
-  resource_id = aws_api_gateway_resource.foo.id
+resource "aws_api_gateway_method" "api_gateway_method" {
+  rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.api_gateway_resource.id
   http_method = "GET"
 
   # Preferred value COGNITO_USER_POOLS, AWS_IAM, CUSTOME
@@ -29,17 +29,17 @@ resource "aws_api_gateway_method" "foo" {
   authorization_scopes = [""]                              # Must be configured
   api_key_required     = false                             # Must be configured
   request_models       = { "application/json" = "Empty" }
-  request_validator_id = aws_api_gateway_request_validator.foo.id
+  request_validator_id = aws_api_gateway_request_validator.api_gateway_auth_validator.id
   request_parameters = {
     "method.request.path.proxy" = true,
     "method.request.path.param" = true
   }
 }
 
-resource "aws_api_gateway_integration" "foo" {
-  rest_api_id             = aws_api_gateway_rest_api.foo.id
-  resource_id             = aws_api_gateway_resource.foo.id
-  http_method             = aws_api_gateway_method.foo.http_method
+resource "aws_api_gateway_integration" "api_gateway_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  resource_id             = aws_api_gateway_resource.api_gateway_resource.id
+  http_method             = aws_api_gateway_method.api_gateway_method.id
   integration_http_method = "POST"
   connection_type         = "INTERNET"
   type                    = "MOCK" # Must be configured
@@ -66,11 +66,11 @@ EOF
   depends_on = [aws_api_gateway_method.foo]
 }
 
-resource "aws_api_gateway_method_response" "foo" {
+resource "aws_api_gateway_method_response" "api_gateway_method_response" {
   # All options # Must be configured
-  rest_api_id = aws_api_gateway_rest_api.foo.id
-  resource_id = aws_api_gateway_resource.foo.id
-  http_method = aws_api_gateway_method.foo.http_method
+  rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  resource_id = aws_api_gateway_resource.api_gateway_resource.id
+  http_method = aws_api_gateway_method.api_gateway_method.http_method
   status_code = "200"
 
   response_models = {
@@ -85,15 +85,15 @@ resource "aws_api_gateway_method_response" "foo" {
   }
 
   depends_on = [
-    aws_api_gateway_method.foo,
+    aws_api_gateway_method.api_gateway_method,
   ]
 }
 
-resource "aws_api_gateway_integration_response" "foo" {
-  rest_api_id       = aws_api_gateway_rest_api.foo.id
-  resource_id       = aws_api_gateway_resource.foo.id
-  http_method       = aws_api_gateway_method.foo.http_method
-  status_code       = aws_api_gateway_method_response.foo.status_code # Must be configured
+resource "aws_api_gateway_integration_response" "api_gateway_integration_response" {
+  rest_api_id       = aws_api_gateway_rest_api.api_gateway_rest_api.id
+  resource_id       = aws_api_gateway_resource.api_gateway_resource.id
+  http_method       = aws_api_gateway_method.api_gateway_method.http_method
+  status_code       = aws_api_gateway_method_response.api_gateway_method_response.status_code # Must be configured
   selection_pattern = "^Token*"                                       # Must be configured
   response_parameters = {
     # Must be configured
@@ -114,14 +114,14 @@ EOF
   }
 
   depends_on = [
-    aws_api_gateway_integration.foo,
-    aws_api_gateway_method_response.foo,
+    aws_api_gateway_integration.api_gateway_integration,
+    aws_api_gateway_method_response.api_gateway_method_response,
   ]
 }
 
-resource "aws_api_gateway_gateway_response" "foo" {
+resource "aws_api_gateway_gateway_response" "api_gateway_gateway_response" {
   # All options # Must be configured
-  rest_api_id   = aws_api_gateway_rest_api.foo.id
+  rest_api_id   = aws_api_gateway_rest_api.api_gateway_rest_api.id
   status_code   = "401"
   response_type = "UNAUTHORIZED"
 

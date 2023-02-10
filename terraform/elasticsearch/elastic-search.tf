@@ -1,5 +1,5 @@
 
-resource "aws_elasticsearch_domain" "es" {
+resource "aws_elasticsearch_domain" "elasticshearch_domain" {
   domain_name = local.elk_domain
   elasticsearch_version = "7.10"
 
@@ -18,13 +18,14 @@ resource "aws_elasticsearch_domain" "es" {
   }
 
   cluster_config {
-      dedicated_master_enabled = true
-      instance_count = 3
-      instance_type = "r5.large.elasticsearch"
-      zone_awareness_enabled = false
-      zone_awareness_config {
-        availability_zone_count = 0
-      }
+    dedicated_master_enabled = true
+    instance_count = 3
+    instance_type = "r5.large.elasticsearch"
+    zone_awareness_enabled = false
+    
+    zone_awareness_config {
+      availability_zone_count = 0
+    }
   }
 
   domain_endpoint_options {
@@ -35,13 +36,8 @@ resource "aws_elasticsearch_domain" "es" {
   }
 
   vpc_options {
-      subnet_ids = [""]
-      security_group_ids = [""]
-  }
-
-  ebs_options {
-      ebs_enabled = true
-      volume_size = 10
+    subnet_ids = [""]
+    security_group_ids = [""]
   }
 
   encrypt_at_rest {
@@ -50,8 +46,9 @@ resource "aws_elasticsearch_domain" "es" {
   }
   
   advanced_security_options {
-    enabled                        = true
+    enabled                        = false
     internal_user_database_enabled = true
+    
     master_user_options {
       master_user_arn      = ""
       master_user_name     = var.username
@@ -77,7 +74,7 @@ resource "aws_elasticsearch_domain" "es" {
   CONFIG
 
   snapshot_options {
-      automated_snapshot_start_hour = 23
+      automated_snapshot_start_hour = 0
   }
 
   tags = {

@@ -5,7 +5,7 @@
 #  * EKS Cluster
 #
 
-resource "aws_iam_role" "demo-cluster" {
+resource "aws_iam_role" "eks_role" {
   name = "terraform-eks-demo-cluster"
 
   assume_role_policy = <<POLICY
@@ -34,16 +34,9 @@ resource "aws_iam_role_policy_attachment" "demo-cluster-AmazonEKSVPCResourceCont
   role       = aws_iam_role.demo-cluster.name
 }
 
-resource "aws_eks_cluster" "demo" {
+resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster-name
-  role_arn = aws_iam_role.demo-cluster.arn
-
-  encryption_config {
-        resources = []
-        provider {
-            key_arn = aws_kms_key.kms_key.arn
-        }
-    }
+  role_arn = aws_iam_role.eks_role.arn
 
   vpc_config {
     security_group_ids = []

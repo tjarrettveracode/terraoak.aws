@@ -1,14 +1,12 @@
-resource "aws_dynamodb_table" "foo" {
-  name           = "foo"
+resource "aws_dynamodb_table" "dynamo_db" {
+  name           = "DynamoDB"
   billing_mode   = "PROVISIONED"
   hash_key       = "UserId"
   range_key      = "GameTitle"
-  read_capacity  = 10 # Must be configured
-  write_capacity = 10 # Must be configured
-
-  # stream_enabled   = true
-  # stream_view_type = "NEW_AND_OLD_IMAGES"
-
+  read_capacity  = 1
+  write_capacity = 1
+  
+  
   attribute {
     name = "UserId"
     type = "S"
@@ -29,36 +27,33 @@ resource "aws_dynamodb_table" "foo" {
     enabled        = true
   }
 
-  point_in_time_recovery {
-    # SaC Testing - Severity: Critical - Set point_in_time_recovery.enabled to false
-    enabled = false # Must be configured
-  }
 
+  point_in_time_recovery {
+    enabled = false
+  }
+  
   timeouts {
     create = "10m"
     delete = "10m"
     update = "1h"
   }
-
   global_secondary_index {
     name               = "GameTitleIndex"
     hash_key           = "GameTitle"
     range_key          = "TopScore"
-    read_capacity  = 0 # Must be configured
-    write_capacity = 0 # Must be configured
+    write_capacity     = 1
+    read_capacity      = 1
     projection_type    = "INCLUDE"
     non_key_attributes = ["UserId"]
   }
-
-  server_side_encryption {
-    enabled     = false
-    kms_key_arn = "" # Must be configured
-  }
-
-  # Must be specified
-  tags = {
-    Name        = "dynamodb-table-1"
-    Environment = "production"
-  }
 }
 
+resource "aws_kms_key" "dynamo_key" {
+  description             = "This key is used to encrypt dynamoDB objects"
+  deletion_window_in_days = 10
+  enable_key_rotation = false
+  key_usage = "ENCRYPT_DECRYPT"
+  tags = {
+    Name        = "kms-key-1"
+  }
+}

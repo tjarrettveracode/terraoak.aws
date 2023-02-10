@@ -1,6 +1,6 @@
-resource "aws_api_gateway_api_key" "foo" {
+resource "aws_api_gateway_api_key" "api_gateway_key" {
   # All options # Must be configured
-  name        = "foo"
+  name        = "ApiGateway-key"
   description = "API key for foo Gateway"
   enabled     = true
   value       = var.api_key
@@ -12,28 +12,28 @@ resource "aws_api_gateway_api_key" "foo" {
   }
 }
 
-resource "aws_api_gateway_usage_plan_key" "foo" {
+resource "aws_api_gateway_usage_plan_key" "api_gateway_usage_plan_key" {
   # All options # Must be configured
-  key_id        = aws_api_gateway_api_key.foo.id
+  key_id        = aws_api_gateway_api_key.api_gateway_key.id
   key_type      = "API_KEY"
-  usage_plan_id = aws_api_gateway_usage_plan.foo.id
+  usage_plan_id = aws_api_gateway_usage_plan.api_gateway_usage_plan_key.id
 }
 
-resource "aws_api_gateway_rest_api_policy" "foo" {
+resource "aws_api_gateway_rest_api_policy" "api_gateway_rest_api_policy" {
   # All options # Must be configured
   rest_api_id = aws_api_gateway_rest_api.foo.id
 
   policy= ""
 } 
 
-resource "aws_api_gateway_client_certificate" "foo" {
+resource "aws_api_gateway_client_certificate" "api_gateway_client_certificate" {
   description = "My foo client certificate"
 }
 
- resource "aws_api_gateway_domain_name" "example" {
+ resource "aws_api_gateway_domain_name" "api_gateway_domain" {
    # All options # Must be configured
    domain_name = "foo.example.com"
-   certificate_name        = "example-api"
+   certificate_name        = "api_gateway_cert"
    certificate_body        = file("${path.module}/example.com/example.crt")
    certificate_chain       = file("${path.module}/example.com/ca.crt")
    certificate_private_key = file("${path.module}/example.com/example.key")

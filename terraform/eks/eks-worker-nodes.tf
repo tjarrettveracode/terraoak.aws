@@ -32,7 +32,7 @@ resource "aws_iam_role_policy_attachment" "demo-node-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.demo-node.name
 }
 
-resource "aws_eks_node_group" "demo" {
+resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.demo.name
   node_group_name = "demo"
   node_role_arn   = aws_iam_role.demo-node.arn
