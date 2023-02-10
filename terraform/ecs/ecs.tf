@@ -44,8 +44,8 @@ resource "aws_ecs_service" "ecs_service" {
   
   # All options # Must be configured
   name            = "testapp-service"
-  cluster         = aws_ecs_cluster.test-cluster.id
-  task_definition = aws_ecs_task_definition.test-def.arn
+  cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.ecs_task_definition.arn
   desired_count   = var.app_count
   launch_type     = "FARGATE"
   network_configuration {
@@ -60,9 +60,9 @@ resource "aws_ecs_service" "ecs_service" {
   depends_on = [aws_alb_listener.testapp, aws_iam_role_policy_attachment.ecs_task_execution_role]
 }
 
-resource "aws_ecs_task_set" "example" {
+resource "aws_ecs_task_set" "ecs_task_set" {
   service         = aws_ecs_service.ecs_service.id
-  cluster         = aws_ecs_cluster.test-ecs_cluster.id
+  cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.id
 
   network_configuration {
