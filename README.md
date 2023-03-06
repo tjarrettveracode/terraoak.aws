@@ -1,41 +1,42 @@
 # TerraOak - Finding Design Gaps Daily
 ![TerraOak](oak9-logo.png)
 
-TerraOak is Oak9's vulnerable IAC code repo.   This repo will be used for learning and training purposes on how to implement a cloud security posture. 
+TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code repository. This repo is for learning and training purposes to demonstrate how to implement a cloud security posture. 
 
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Blast Off](#Getting-Started-Terraform-Code-Execution)
+* [Scenario](#scenario)
+* [Docker Setup](#running-inside-a-docker-container)
+* [Terraform Code Execution](#terraform-code-execution)
+* [oak9 CLI Execution](#oak9-cli-execution)
 
 
 ## Introduction 
 
-Before you proceed, WARNING:
-> :warning: TerraOak is a test repo for creating Vulnerable resources, please use at your own discrention, Oak9 is not responsible for any damages. **DO NOT deploy TerraOak in a production environment or any AWS accounts that contain sensitive information.**
-
-TerraOak is a public repo available to the general audience to showcase the Oak9 cli in action.  It can be used to test our cli against our dynamic blueprint engine to validate design gaps.
+Before proceeding, please read the following disclaimer:
+> :warning: TerraOak is a repository of purposefully misconfigured commonly-used IaC with the intended purpose of showcasing oak9's powerful CLI and dynamic blueprint engine. Please use at your own discretion; oak9 is not responsible for any damages. **Do not deploy TerraOak in a production environment or against an AWS account that contains sensitive information.**
 
 ## Scenario
 
-Lets Build a Users API using the below resources and secure using Oak9. 
+In this example, we'll build a simple user API using the following Amazon resources and secure them using oak9's platform:
 
-* s3
-* dyanmodb
-* api-gateway
-* lambda 
+* [Amazon S3](https://aws.amazon.com/s3/)
+* [Amazon DynamoDB](https://aws.amazon.com/dynamodb/)
+* [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
+* [AWS Lambda](https://aws.amazon.com/lambda/)
 
 ## Terraform Code 
 
-The code in this repo should not be run inside of your company's aws accounts but rather in a playground account.   
+One final word of warning: The IaC provided in this repository is vulnerable _by design_. These examples should **not** be executed to create resources in a production AWS account.
 
-## Running it inside of a docker container
+## Running oak9 inside a Docker container
 
-* pull image from docker hub docker pull oak9/cli
-* pass following env vars to the container 
+* Pull most recent image from Docker Hub `docker pull oak9/cli`
+* Pass the following environment variables to the container via `docker run` [-e or --env](https://docs.docker.com/engine/reference/commandline/run/#env) or your own Dockerfile
     * OAK9_API_KEY
     * OAK9_PROJECT_ID
-    * OAK9_DIR = "directory of your terraform code"
+    * OAK9_DIR = "\<directory containing Terraform files\>"
 
 ## Requirements
 
@@ -44,27 +45,23 @@ The code in this repo should not be run inside of your company's aws accounts bu
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
 
+* Ensure a backend S3 bucket and DynamoDB table for Terraform state locking are created. This config will need to reside in a .tf file in the root directory. See Terraform's documentation for further details: https://www.terraform.io/language/settings/backends/s3
 
-* Ensure your create your backend bucket and table for terraform state file. This config will need to reside in a .tf file in the root directory. 
+## Terraform Code Execution
 
-https://www.terraform.io/language/settings/backends/s3
-
-## Getting Started Terraform Code Execution
-
-* Download github code locally 
-* Ensure requirements are met 
-* Run terraform init 
-* Run terraform plan/apply 
-* Add a api user with following command 
+* Clone or fork this repository
+* Ensure [minimum version requirements](#requirements) are met 
+* Run `terraform init`
+* Run `terraform plan` or `terraform apply`
+* Add an API user
 
 `curl -X POST "$(terraform output -raw base_url)/set-user?id=0&name=john&orgid=xyx&plan=enterprise&orgname=xyzdfd&creationdate=82322"`
 
-* Retrieve an api user 
+* Retrieve an API user 
 
 `curl "$(terraform output -raw base_url)/get-user?id=0"`
  
 
-## Getting Started Oak9 CLI Execution 
+## oak9 CLI Execution 
 
-Downloading the Oak9 Cli and the instructions on how to run it can be found here, https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
-
+Instructions for downloading and running the oak9 CLI independent of Docker can be found here: https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
