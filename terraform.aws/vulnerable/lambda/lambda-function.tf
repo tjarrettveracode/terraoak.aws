@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "insecure_lambda_SAC" {
-  function_name = "insecure_lambda_function"   # Required
-  role = aws_iam_role.lambda_role.arn     # Required
-	filename   = "my-deployment-package.zip"  # Required
+  function_name = "insecure_lambda_function"   
+  role = aws_iam_role.lambda_role.arn     
+	filename   = "my-deployment-package.zip"  
   handler = "index.handler"
   runtime = "ruby2.6"
   reserved_concurrent_executions = 0

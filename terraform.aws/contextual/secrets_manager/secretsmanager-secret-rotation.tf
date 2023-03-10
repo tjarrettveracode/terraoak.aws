@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret_rotation" "secrets_manager_rotation" {
-   secret_id = aws_secretsmanager_secret.sac_secrets_manager_insecure.id   # Required
-   rotation_lambda_arn = aws_lambda_function.secure_lambda_SAC.arn   # Required
+   secret_id = aws_secretsmanager_secret.sac_secrets_manager_insecure.id   
+   rotation_lambda_arn = aws_lambda_function.secure_lambda_SAC.arn   
 
    rotation_rules {
      automatically_after_days = 30
@@ -8,8 +8,8 @@ resource "aws_secretsmanager_secret_rotation" "secrets_manager_rotation" {
 }
 
 resource "aws_lambda_function" "secure_lambda_SAC" {
-  function_name = "secure_lambda_function"   # Required
-  role = aws_iam_role.lambda_role.arn     # Required
+  function_name = "secure_lambda_function"   
+  role = aws_iam_role.lambda_role.arn     
 	filename   = "my-deployment-package.zip"   # Set this or imageURI
   handler = "index.handler"
   runtime = "dotnet6"
@@ -21,12 +21,12 @@ resource "aws_lambda_function" "secure_lambda_SAC" {
   }
 
   vpc_config {
-    subnet_ids = [aws_subnet.test-subnet.id]	# Required
-    security_group_ids = [aws_security_group.security-group-lambda.id]		# Required
+    subnet_ids = [aws_subnet.test-subnet.id]	
+    security_group_ids = [aws_security_group.security-group-lambda.id]		
   }
 
   dead_letter_config {
-    target_arn = aws_sns_topic.topic-sns.arn		# Required
+    target_arn = aws_sns_topic.topic-sns.arn		
   }
 }
 

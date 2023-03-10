@@ -1,6 +1,6 @@
 resource "aws_instance" "aws_ec2_instance_sac_default" {
   ami = data.aws_ami.ubuntu.id
-  subnet_id = aws_subnet.ec2_instance_subnet_default.id   # Required
+  subnet_id = aws_subnet.ec2_instance_subnet_default.id   
 
   launch_template {
     id = aws_launch_template.aws_ec2_launch_template_sac_default.id
@@ -10,7 +10,7 @@ resource "aws_instance" "aws_ec2_instance_sac_default" {
 
   ebs_block_device {
     delete_on_termination = false
-    device_name = "/dev/sdf"  # Required
+    device_name = "/dev/sdf"  
     encrypted = false
     volume_size = 5
 
@@ -55,7 +55,7 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   revoke_rules_on_delete = false
 
   ingress {
-    # All options # Must be configured
+    
     description      = "TLS from VPC"
     from_port        = 443
     to_port          = 443
@@ -65,7 +65,7 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   }
 
   egress {
-    # All options # Must be configured
+    
     from_port       = 0
     to_port         = 0
     protocol        = "-1"

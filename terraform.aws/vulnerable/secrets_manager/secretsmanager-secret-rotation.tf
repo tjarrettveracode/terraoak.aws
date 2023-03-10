@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret_rotation" "secrets_manager_rotation" {
-   secret_id = aws_secretsmanager_secret.sac_secrets_manager_insecure.id   # Required
-   rotation_lambda_arn = aws_lambda_function.secure_lambda_SAC.arn   # Required
+   secret_id = aws_secretsmanager_secret.sac_secrets_manager_insecure.id   
+   rotation_lambda_arn = aws_lambda_function.secure_lambda_SAC.arn   
 
    rotation_rules {
      automatically_after_days = 90
@@ -8,8 +8,8 @@ resource "aws_secretsmanager_secret_rotation" "secrets_manager_rotation" {
 }
 
 resource "aws_lambda_function" "secure_lambda_SAC" {
-  function_name = "secure_lambda_function"   # Required
-  role = aws_iam_role.lambda_role.arn     # Required
+  function_name = "secure_lambda_function"   
+  role = aws_iam_role.lambda_role.arn     
 	filename   = "my-deployment-package.zip"   # Set this or imageURI
   handler = "index.handler"
   runtime = "python3.6"

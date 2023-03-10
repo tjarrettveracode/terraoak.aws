@@ -14,7 +14,7 @@ resource "aws_lb" "elbv2_sac" {
   }
 
   access_logs {
-    bucket = aws_s3_bucket.elbv2_bucket.bucket   # Required
+    bucket = aws_s3_bucket.elbv2_bucket.bucket   
     enabled = false
   }
 }

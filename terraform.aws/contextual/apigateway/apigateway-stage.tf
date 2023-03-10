@@ -1,7 +1,7 @@
 resource "aws_api_gateway_stage" "sac_api_gateway_stage" {
-  deployment_id         = aws_api_gateway_deployment.sac_api_gateway_deployment.id  # Required
-  rest_api_id           = aws_api_gateway_rest_api.sac_api_gateway_rest_api.id  # Required
-  stage_name            = "sac-testing-apigw-stage"   # Required
+  deployment_id         = aws_api_gateway_deployment.sac_api_gateway_deployment.id  
+  rest_api_id           = aws_api_gateway_rest_api.sac_api_gateway_rest_api.id  
+  stage_name            = "sac-testing-apigw-stage"   
 
   # DEMO - severity change based on data sensitivity Moderate -> Critical
   # access_log_settings {

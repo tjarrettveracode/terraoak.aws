@@ -1,6 +1,6 @@
 resource "aws_instance" "aws_ec2_instance_sac_default" {
   ami = data.aws_ami.ubuntu.id
-  subnet_id = aws_subnet.ec2_instance_subnet_default.id   # Required
+  subnet_id = aws_subnet.ec2_instance_subnet_default.id   
 
   launch_template {
     id = aws_launch_template.aws_ec2_launch_template_sac_default.id
@@ -22,7 +22,7 @@ resource "aws_instance" "aws_ec2_instance_sac_default" {
 
   ebs_block_device {
     delete_on_termination = false
-    device_name = "/dev/sdf"  # Required
+    device_name = "/dev/sdf"  
     encrypted = true
     volume_size = 5
 
