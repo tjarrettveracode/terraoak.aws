@@ -7,7 +7,6 @@ TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code reposito
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Docker Setup](#running-inside-a-docker-container)
 * [Terraform Code Execution](#terraform-code-execution)
 * [oak9 CLI Execution](#oak9-cli-execution)
 
@@ -17,13 +16,6 @@ Before proceeding, please read the following disclaimer:
 > :warning: TerraOak contains multiple examples of code displaying common IaC misconfigurations. These were developed with the intention of showcasing the impact of oak9's powerful CLI and dynamic blueprint engine on improving organizational security posture. Use at your own discretion; oak9 is not responsible for any damages.
 
  **Please use caution when using this codebase and ensure that you have appropriate permissions to deploy resources in your AWS environment. Always follow best practices for securing your cloud infrastructure and consult with your organization's security team before deploying any code to production environments.**
-
- ## Running oak9 inside a Docker container
-
-- Use Docker Hub to pull down the latest oak9 CLI container
-  `docker pull oak9/cli`
-- Setup environmental variables for your CLI Integration. Run the following command replacing the provided values with details from your oak9 Integration.
-`docker run --e OAK9_API_KEY=<oak9-api-key> --e OAK9_PROJECT_ID=<oak9-project-id> --e OAK9_DIR=<terraoak.azure/terraform.azure/vulnerable> ubuntu env | grep VAR`
 
 ## Requirements
 
