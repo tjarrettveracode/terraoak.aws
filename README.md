@@ -1,42 +1,29 @@
-# TerraOak - Finding Design Gaps Daily
+# TerraOak: Finding Design Gaps Daily
+## Welcome to TerraOak-AWS!
 ![TerraOak](oak9-logo.png)
 
-TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code repository. This repo is for learning and training purposes to demonstrate how to implement a cloud security posture. 
+TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code repository. This repository contains deployable resource configurations for AWS, which have been intentionally designed to be vulnerable for learning purposes.
 
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Scenario](#scenario)
 * [Docker Setup](#running-inside-a-docker-container)
 * [Terraform Code Execution](#terraform-code-execution)
 * [oak9 CLI Execution](#oak9-cli-execution)
 
 
 ## Introduction 
-
 Before proceeding, please read the following disclaimer:
-> :warning: TerraOak is a repository of purposefully misconfigured commonly-used IaC with the intended purpose of showcasing oak9's powerful CLI and dynamic blueprint engine. Please use at your own discretion; oak9 is not responsible for any damages. **Do not deploy TerraOak in a production environment or against an AWS account that contains sensitive information.**
+> :warning: TerraOak contains multiple examples of code displaying common IaC misconfigurations. These were developed with the intention of showcasing the impact of oak9's powerful CLI and dynamic blueprint engine on improving organizational security posture. Use at your own discretion; oak9 is not responsible for any damages.
 
-## Scenario
+ **Please use caution when using this codebase and ensure that you have appropriate permissions to deploy resources in your Azure environment. Always follow best practices for securing your cloud infrastructure and consult with your organization's security team before deploying any code to production environments.**
 
-In this example, we'll build a simple user API using the following Amazon resources and secure them using oak9's platform:
+ ## Running oak9 inside a Docker container
 
-* [Amazon S3](https://aws.amazon.com/s3/)
-* [Amazon DynamoDB](https://aws.amazon.com/dynamodb/)
-* [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
-* [AWS Lambda](https://aws.amazon.com/lambda/)
-
-## Terraform Code 
-
-One final word of warning: The IaC provided in this repository is vulnerable _by design_. These examples should **not** be executed to create resources in a production AWS account.
-
-## Running oak9 inside a Docker container
-
-* Pull most recent image from Docker Hub `docker pull oak9/cli`
-* Pass the following environment variables to the container via `docker run` [-e or --env](https://docs.docker.com/engine/reference/commandline/run/#env) or your own Dockerfile
-    * OAK9_API_KEY
-    * OAK9_PROJECT_ID
-    * OAK9_DIR = "\<directory containing Terraform files\>"
+- Use Docker Hub to pull down the latest oak9 CLI container
+  `docker pull oak9/cli`
+- Setup environmental variables for your CLI Integration. Run the following command replacing the provided values with details from your oak9 Integration.
+`docker run --e OAK9_API_KEY=<oak9-api-key> --e OAK9_PROJECT_ID=<oak9-project-id> --e OAK9_DIR=<terraoak.azure/terraform.azure/vulnerable> ubuntu env | grep VAR`
 
 ## Requirements
 
@@ -54,14 +41,12 @@ One final word of warning: The IaC provided in this repository is vulnerable _by
 * Run `terraform init`
 * Run `terraform plan` or `terraform apply`
 * Add an API user
-
 `curl -X POST "$(terraform output -raw base_url)/set-user?id=0&name=john&orgid=xyx&plan=enterprise&orgname=xyzdfd&creationdate=82322"`
 
 * Retrieve an API user 
-
 `curl "$(terraform output -raw base_url)/get-user?id=0"`
  
 
 ## oak9 CLI Execution 
 
-Instructions for downloading and running the oak9 CLI independent of Docker can be found here: https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
+To view instructions for downloading and running the oak9 CLI independent of Docker please see the following documentation -> https://docs.oak9.io/oak9/fundamentals/integrations/cli-integration
