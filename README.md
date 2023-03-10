@@ -16,7 +16,7 @@ TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code reposito
 Before proceeding, please read the following disclaimer:
 > :warning: TerraOak contains multiple examples of code displaying common IaC misconfigurations. These were developed with the intention of showcasing the impact of oak9's powerful CLI and dynamic blueprint engine on improving organizational security posture. Use at your own discretion; oak9 is not responsible for any damages.
 
- **Please use caution when using this codebase and ensure that you have appropriate permissions to deploy resources in your Azure environment. Always follow best practices for securing your cloud infrastructure and consult with your organization's security team before deploying any code to production environments.**
+ **Please use caution when using this codebase and ensure that you have appropriate permissions to deploy resources in your AWS environment. Always follow best practices for securing your cloud infrastructure and consult with your organization's security team before deploying any code to production environments.**
 
  ## Running oak9 inside a Docker container
 
