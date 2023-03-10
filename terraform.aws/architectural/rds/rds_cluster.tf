@@ -12,17 +12,9 @@ resource "aws_rds_cluster" "default" {
   preferred_backup_window = "07:00-09:00"
   db_subnet_group_name   = aws_db_subnet_group.default.id
   vpc_security_group_ids = [aws_security_group.default.id]
-
-  # SaC Testing - Severity: Moderate - Set exports to undefined
-  #enabled_cloudwatch_logs_exports = []
-
- 
-  # SaC Testing - Severity: High - Set kms_key_id to ""
-  #kms_key_id = ""
   apply_immediately   = true
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cluster_parameter_group.id
   deletion_protection     = true
-  # SaC Testing - Severity: High - Set iam_database_authentication_enabled to false
   iam_database_authentication_enabled = true
   skip_final_snapshot    = true
   final_snapshot_identifier = "DELETE"
@@ -34,21 +26,12 @@ resource "aws_rds_cluster" "default" {
 
 }
 
-# SaC Testing - Severity: Critical - Delete the aws_rds_cluster_role_association resource_type
-#resource "aws_rds_cluster_role_association" "example" {
-#   db_cluster_identifier = aws_rds_cluster.default.id
-#   feature_name          = "S3_INTEGRATION"
-#   role_arn              = aws_iam_role.rds_s3_role.arn
-#}
-
 resource "aws_db_proxy" "rds_db_proxy" {
   name                   = "db-proxy"
-  # SaC Testing - Severity: Moderate - Set debug_logging to false
-  debug_logging          = true
+  debug_logging          = false
   engine_family          = "MYSQL"
   idle_client_timeout    = 1800
-  # SaC Testing - Severity: High - Set require_tls to false
-  require_tls            = true
+  require_tls            = false
   role_arn               = aws_iam_role.db_proxy_role.arn
   vpc_security_group_ids = [aws_security_group.default.id]
   vpc_subnet_ids         = [aws_subnet.subnet_1[0].id,aws_subnet.subnet_1[1].id]
@@ -56,7 +39,6 @@ resource "aws_db_proxy" "rds_db_proxy" {
   auth {
     auth_scheme = "SECRETS"
     description = "example"
-    # SaC Testing - Severity: High - Set iam_auth to "Required" & secret_arn to ""
     iam_auth    = "REQUIRED"
     secret_arn  = aws_secretsmanager_secret.rds_secrets.arn
   }
@@ -87,7 +69,6 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_db_event_subscription" "default" {
   name      = "rds-event-sub"
   sns_topic = aws_sns_topic.default.arn
-  # source_type = "db-cluster"
   source_ids  = [aws_rds_cluster.default.id]
   event_categories = [
     "availability",
@@ -103,3 +84,44 @@ resource "aws_db_event_subscription" "default" {
   ]
 }
 
+
+resource "aws_iam_role" "rds_s3_role" {
+  name = "rds_s3_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = ["s3.amazonaws.com","rds.amazonaws.com"]
+        }
+      }
+    ]
+  })
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+resource "aws_iam_role" "db_proxy_role" {
+  name = "rds_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "rds.amazonaws.com"
+        }
+      },
+    ]
+  })
+  tags = {
+    tag-key = "tag-value"
+  }
+}

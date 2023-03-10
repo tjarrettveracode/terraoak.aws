@@ -19,15 +19,11 @@ resource "aws_db_instance" "default" {
   availability_zone       = "us-east-2a"
   backup_retention_period = 5
   enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]
-
-  # SaC Testing - Severity: Critical - Set publicly_accessible to true
   publicly_accessible     = false
-  # SaC Testing - Severity: High - Set kms_key_id to ""
   kms_key_id = ""
   apply_immediately       = true
   max_allocated_storage   = 20
   deletion_protection     = false
-  # SaC Testing - Severity: High - Set iam_database_authentication_enabled to false
   iam_database_authentication_enabled = true
   skip_final_snapshot    = true
   final_snapshot_identifier = "DELETE"
@@ -37,19 +33,11 @@ resource "aws_db_instance" "default" {
   }
 }
 
-# The feature name S3_INTEGRATION is not valid for the engine MySQL Community Edition.
-# resource "aws_db_instance_role_association" "example" {
-#   db_instance_identifier = aws_db_instance.default.id
-#   feature_name           = "S3_INTEGRATION"
-#   role_arn               = aws_iam_role.rds_s3_role.arn
-# }
-
 resource "aws_db_proxy" "db_proxy" {
   name                   = "db-proxy"
   debug_logging          = false
   engine_family          = "MYSQL"
   idle_client_timeout    = 1800
-  # SaC Testing - Severity: High - Set require_tls to false
   require_tls            = true
   role_arn               = aws_iam_role.db_proxy_role.arn
   vpc_security_group_ids = [aws_security_group.default.id]
@@ -58,9 +46,6 @@ resource "aws_db_proxy" "db_proxy" {
   auth {
     auth_scheme = "SECRETS"
     description = "example"
-    # SaC Testing - Severity: High - Set iam_auth to "Required" & secret_arn to ""
-    iam_auth    = ""
-    secret_arn  = ""
   }
 
   tags = {
