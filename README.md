@@ -2,7 +2,7 @@
 ## Welcome to TerraOak-AWS!
 ![TerraOak](oak9-logo.png)
 
-TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code repository. This repository contains deployable resource configurations for AWS, which have been intentionally designed to be vulnerable for learning purposes.
+TerraOak is [oak9](https://oak9.io)'s vulnerable Infrastructure as Code repository. This repository contains deployable resource configurations for AWS, which have been intentionally designed to be insecure for learning purposes.
 
 ## Table of Contents
 
