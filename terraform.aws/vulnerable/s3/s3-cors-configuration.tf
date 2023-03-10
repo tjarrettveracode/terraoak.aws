@@ -1,4 +1,3 @@
-
 resource "aws_s3_bucket_cors_configuration" "s3_cors_config_sac" {
   bucket = aws_s3_bucket.s3_bucket_sac.id
 

@@ -1,6 +1,6 @@
 resource "aws_lb" "elbv2_sac" {
   name               = "elbv2-sac"
-  load_balancer_type = "application"  # Default = application
+  load_balancer_type = "application"
   drop_invalid_header_fields = true
   desync_mitigation_mode = "monitor"
   internal = true
@@ -15,7 +15,6 @@ resource "aws_lb" "elbv2_sac" {
 
   access_logs {
     bucket = aws_s3_bucket.elbv2_bucket.bucket   # Required
-    # SaC Testing - Severity: High - Set enabled to false
     enabled = false
   }
 }

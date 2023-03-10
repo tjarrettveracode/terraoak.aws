@@ -3,11 +3,10 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  # All options # Must be configured
   family                   = "testapp-task"
   execution_role_arn       = "execution_role"
   task_role_arn            = "task_role"
-  network_mode             = "bridge" #this mode use for fargate
+  network_mode             = "bridge"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
   memory                   = 2048
@@ -20,10 +19,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
                 root_directory= "/"
                 transit_encryption= "DISABLED"
                 transit_encryption_port= 2999
-                # authorization_config {
-                #     access_point_id ="/"
-                #     iam ="ENABLED"
-                # }
             }
     }
 }
@@ -41,8 +36,7 @@ resource "aws_efs_file_system" "ecs_efs_system" {
 
 
 resource "aws_ecs_service" "ecs_service" {
-  
-  # All options # Must be configured
+
   name            = "testapp-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
@@ -51,9 +45,6 @@ resource "aws_ecs_service" "ecs_service" {
   network_configuration {
     subnets          = aws_subnet.private.*.id
     assign_public_ip = "enabled"
-  }
-
-  load_balancer {
   }
 
   iam_role = ""
@@ -68,7 +59,5 @@ resource "aws_ecs_task_set" "ecs_task_set" {
   network_configuration {
     subnets          = aws_subnet.private.*.id
     assign_public_ip = true
-  }
-  load_balancer {
   }
 }

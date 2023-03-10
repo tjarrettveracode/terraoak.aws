@@ -29,7 +29,6 @@ EOF
 
 
 resource "aws_kms_alias" "kms_alias_sac" {
-  # All options # Must be configured
   name          = "kms-alias-sac"
   target_key_id = aws_kms_key.kms_key_sac.key_id
   

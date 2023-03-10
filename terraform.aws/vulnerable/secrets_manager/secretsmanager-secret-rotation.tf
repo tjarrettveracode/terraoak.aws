@@ -47,7 +47,6 @@ resource "aws_vpc" "main" {
 
 resource "aws_iam_role" "lambda_role" {
     name = "lambda_role"
-    #managed_policy_arns = [aws_iam_role_policy.test_policy.arn]
     assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -70,8 +69,6 @@ resource "aws_iam_role_policy" "test_policy" {
   name = "test_policy"
   role = aws_iam_role.lambda_role.id
 
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [

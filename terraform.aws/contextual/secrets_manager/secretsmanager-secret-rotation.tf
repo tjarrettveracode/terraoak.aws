@@ -3,7 +3,6 @@ resource "aws_secretsmanager_secret_rotation" "secrets_manager_rotation" {
    rotation_lambda_arn = aws_lambda_function.secure_lambda_SAC.arn   # Required
 
    rotation_rules {
-    # SaC Testing - Severity: Critical - set automatically_after_days to value other than 30
      automatically_after_days = 30
    }
 }

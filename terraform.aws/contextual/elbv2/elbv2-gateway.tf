@@ -44,7 +44,6 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   revoke_rules_on_delete = false
 
   ingress {
-    # All options # Must be configured
     description      = "TLS from VPC"
     from_port        = 443
     to_port          = 443
@@ -54,7 +53,6 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   }
 
   egress {
-    # All options # Must be configured
     from_port       = 0
     to_port         = 0
     protocol        = "-1"

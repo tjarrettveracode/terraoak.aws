@@ -24,10 +24,6 @@ resource "aws_instance" "aws_ec2_instance_sac_default" {
     delete_on_termination = false
     device_name = "/dev/sdf"  # Required
     encrypted = true
-
-    # SaC Testing - Severity: High - Set ebs_block_device.kms_key_id to ""
-    #kms_key_id = ""
-    
     volume_size = 5
 
     tags = {
@@ -71,7 +67,6 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   revoke_rules_on_delete = false
 
   ingress {
-    # All options # Must be configured
     description      = "TLS from VPC"
     from_port        = 443
     to_port          = 443
@@ -81,7 +76,6 @@ resource "aws_security_group" "ec2_instance_security_group_default" {
   }
 
   egress {
-    # All options # Must be configured
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
