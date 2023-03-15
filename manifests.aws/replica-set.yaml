@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: sac-k8-replica-set
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  automountServiceAccountToken: true
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: php-redis
+        image: gcr.io/google_samples/gb-frontend:v3
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
