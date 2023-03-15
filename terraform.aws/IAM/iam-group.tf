@@ -1,5 +1,5 @@
 resource "aws_iam_group" "sac_iam_group" {
-  name = "sac-iam-group"   # Required
+  name = "sac-iam-group"
   path = "/users/"
 }
 
