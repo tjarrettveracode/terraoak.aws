@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: sac-k8-role
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["secret"]
+  verbs: ["list", "get"]

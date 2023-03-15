@@ -1,6 +1,10 @@
-resource "aws_iam_role" "demo-node" {
+resource "aws_iam_role" "eks-node-role" {
   name = "terraform-eks-demo-node"
 
+  tags = {
+    key = "value"
+  }
+  
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -35,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "demo-node-AmazonEC2ContainerRegistryR
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.demo.name
   node_group_name = "demo"
-  node_role_arn   = aws_iam_role.demo-node.arn
+  node_role_arn   = aws_iam_role.eks-node-role.arn
   subnet_ids      = aws_subnet.demo[*].id
   
   remote_access {
