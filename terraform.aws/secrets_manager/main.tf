@@ -43,7 +43,7 @@ resource "aws_lambda_function" "secure_lambda_SAC" {
   role = aws_iam_role.lambda_role.arn     
 	filename   = "my-deployment-package.zip"   # Set this or imageURI
   handler = "index.handler"
-  runtime = "python3.6"
+  runtime = "python310"
   reserved_concurrent_executions = 0
 }
 
