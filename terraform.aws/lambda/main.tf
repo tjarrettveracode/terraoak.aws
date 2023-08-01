@@ -6,7 +6,7 @@ resource "aws_lambda_function" "insecure_lambda_SAC" {
   role = aws_iam_role.lambda_role.arn     
 	filename   = "my-deployment-package.zip"  
   handler = "index.handler"
-  runtime = "ruby2.6"
+  runtime = "ruby32"
   reserved_concurrent_executions = 0
   layers = [aws_lambda_layer_version.lambda_layer.arn]
 	
