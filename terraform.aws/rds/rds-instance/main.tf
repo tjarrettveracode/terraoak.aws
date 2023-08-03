@@ -2,6 +2,7 @@
 # RDS
 # ---------------------------------------------------------------------
 resource "aws_db_instance" "sac_db_instance" {
+  # oak9: Configure event logs for RDS DB Cluster
   db_name                 = "sacDatabaseName"
   identifier              = "sac-testing-db-instance"
   allocated_storage       = 10
