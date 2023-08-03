@@ -2,6 +2,7 @@
 # DynamoDB
 # ---------------------------------------------------------------------
 resource "aws_dynamodb_table" "dynamo_db" {
+  # oak9: Use customer-managed key for at-rest encryption
   name           = "DynamoDB"
   billing_mode   = "PROVISIONED"
   hash_key       = "UserId"
